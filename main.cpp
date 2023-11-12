@@ -19,6 +19,11 @@ int main(int argc, char* argv[]){
 
     Graph* graph = Graph::fromStream(inputFile);
     graph->printToStream(std::cout);
+    GraphRunner runner(std::cout);
 
+    runner.graphSize(graph);
+    runner.graphMetric(graph);
+    runner.maxClique(graph);
+    runner.maxSubgraph({graph});
     return 0;
 }
