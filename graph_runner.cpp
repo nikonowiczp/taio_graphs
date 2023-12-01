@@ -20,7 +20,7 @@ void GraphRunner::graphMetric(Graph* graph){
 }
 
 // orders vertices by the rules of the algorithm 
-void orderVertices(vector<int>& vector, int n, int ** matrix){
+void orderVertices(vector<int>& vector, int ** matrix){
     std::vector<int> v (vector);
     std::vector<int> verticesCount(vector.size()),
         newOrder;
@@ -50,18 +50,73 @@ void orderVertices(vector<int>& vector, int n, int ** matrix){
 }
 void addNextStep(vector<vector<int>> &values, vector<int> &steps, int **matrix){
     vector<int> newDepth;
-    int nodeNumber = steps.back(), currentDepth = steps.size();
+    int nodeNumber = steps.back();
 
     int currentNode = values.back()[nodeNumber];
+    bool didFindValue = false;
+
     for (auto value : values.back()){
-        if(matrix[currentNode][value] != 0){
+        cout<<"Checking "<<currentNode<<" "<<value;
+        if(didFindValue && matrix[currentNode][value] != 0 ){
             newDepth.push_back(value);
+            cout<<" success"<<endl;
+        }else{
+            cout<< " fail: d"<<endl;
         }
+        if(currentNode == value)didFindValue = true;
     }
 
-    // TODO: DO THE SORTING
-    
+    cout<<endl;
+    orderVertices(newDepth, matrix);
     values.push_back(newDepth);
+    
+}
+
+void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matrix, vector<int>& best_clique){
+    cout<<"Current values:"<<endl;
+        for(auto val1: values){
+            cout<<" ";
+            for(auto val2: val1){
+                cout<<val2+1<<" ";
+            }
+            cout<<endl;
+        }
+        cout<<"Current steps: ";
+        for(auto val1: steps){
+            cout<<val1<<" ";
+        }
+        cout<<endl;
+        // we check if expanded. If not - we have the clique
+    if(steps.size() > 0 && values.back().size() == 0){
+        best_clique.clear();
+        for(int i = 0; i<steps.size(); i++){
+            best_clique.push_back(values[i][steps[i]]);
+        }
+        cout<<"Found best clique with size "<<best_clique.size()<<" and members: ";
+        for(auto v:best_clique){
+            cout<<v+1<<" ";
+        } 
+        cout<<endl; 
+        return;
+    }
+    // we check if we do the next move
+
+    for(int val = 0; val<values.back().size(); val++){
+        steps.push_back(val);
+        if((values.size() + values.back().size() - steps.back() - 1) <= best_clique.size()){
+            steps.pop_back();
+            cout<<"Pruning..."<<endl;
+            return;
+        }else{
+            cout<<"Did not prune: "<<values.size() <<" "<<values.back().size()<<" "<<steps.back()<<" "<<best_clique.size()<<endl; 
+        }
+        addNextStep(values, steps, matrix);
+        
+        maxCliqueStep(values, steps, matrix, best_clique);
+        values.pop_back();
+        steps.pop_back();
+    }
+    return;
 }
 void GraphRunner::maxClique(Graph* graph){
     auto g = Graph::fromGraph(graph);
@@ -81,7 +136,7 @@ void GraphRunner::maxClique(Graph* graph){
     g->printToStream(cout);
     vector<int> defaultValues;
     for(int i = 0; i<n;i++) defaultValues.push_back(i);
-    orderVertices(defaultValues, n, g->matrix);
+    orderVertices(defaultValues, g->matrix);
     
 
     std::cout<< "Test the ordering"<<std::endl;
@@ -91,25 +146,11 @@ void GraphRunner::maxClique(Graph* graph){
 
     vector<vector<int>> values;
     values.push_back(defaultValues);
-    int best_clique = 1;
-    vector<int> steps = {1};
+    vector<int> steps, best_clique;
     // we try to find the clique with v_i in it.
     // depth - steps.size();
     // 
-    while(true){
-        if((steps.size() + values.back().size() - steps.back()) <= best_clique){
-            // we prune
-            if(steps.size() == 1){
-                // we have the max clique
-                break;
-            }
-            steps.pop_back();
-            values.pop_back();
-            steps.back()++;
-        }
-
-        addNextStep(values, steps, g->matrix);
-    }
+    maxCliqueStep(values, steps, g->matrix, best_clique);
 }
 void GraphRunner::maxSubgraph(std::vector<Graph* > graphs){
     output << "TODO: Graph max subgraph"<<std::endl;

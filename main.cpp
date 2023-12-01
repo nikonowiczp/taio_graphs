@@ -5,12 +5,17 @@
 #include "graph_runner.h"
 #include "graph.h"
 int main(int argc, char* argv[]){
+    char* input;
     if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
-        return 1;
+        input = "./test_graph.txt";
+        //std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
+        //return 1;
+    }
+    else {
+        input = argv[1];
     }
 
-    std::ifstream inputFile(argv[1]);
+    std::ifstream inputFile(input);
 
     if (!inputFile.is_open()) {
         std::cerr << "Error: Unable to open file " << argv[1] << std::endl;
