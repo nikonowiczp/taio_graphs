@@ -118,7 +118,7 @@ void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matri
     }
     return;
 }
-void GraphRunner::maxClique(Graph* graph){
+vector<int> GraphRunner::maxClique(Graph* graph){
     auto g = Graph::fromGraph(graph);
 
 
@@ -151,6 +151,7 @@ void GraphRunner::maxClique(Graph* graph){
     // depth - steps.size();
     // 
     maxCliqueStep(values, steps, g->matrix, best_clique);
+    return best_clique;
 }
 void GraphRunner::maxSubgraph(std::vector<Graph* > graphs){
     output << "TODO: Graph max subgraph"<<std::endl;
