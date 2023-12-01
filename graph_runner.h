@@ -7,7 +7,7 @@ public:
 
     void graphSize(Graph* graph);
     void graphMetric(Graph* graph);
-    void maxClique(Graph* graph);
+    vector<int> maxClique(Graph* graph);
     void maxSubgraph(std::vector<Graph* > graphs);
 private:
     std::ostream& output;
