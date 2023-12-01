@@ -25,5 +25,7 @@ int main(int argc, char* argv[]){
     runner.graphMetric(graph);
     runner.maxClique(graph);
     runner.maxSubgraph({graph});
+
+    std::cout << "Program is finished";
     return 0;
 }

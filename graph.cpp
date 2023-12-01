@@ -46,6 +46,18 @@ Graph* Graph::fromStream(std::istream& input){
     return result;
 }
 
+Graph* Graph::fromGraph(Graph* other){
+    Graph* result = new Graph(other->size);
+
+    for (int i = 0; i<result->size; i++){
+        for(int j = 0; j< result->size; j++){
+            result->matrix[i][j] = other->matrix[i][j];
+        }
+    }
+    return result;
+
+}
+
 
 void Graph::printToStream(std::ostream& stream){
     stream << this->size << std::endl;
