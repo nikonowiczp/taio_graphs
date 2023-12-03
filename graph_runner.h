@@ -6,9 +6,10 @@ public:
     ~GraphRunner();
 
     void graphSize(Graph* graph);
-    void graphMetric(Graph* graph);
-    vector<int> maxClique(Graph* graph);
-    void maxSubgraph(std::vector<Graph* > graphs);
+    double graphMetric(std::vector<Graph* > graphs);
+    double graphMetric(std::vector<int> subgraph, int n, int m);
+    std::vector<int> maxClique(Graph* graph);
+    std::vector<int> maxSubgraph(std::vector<Graph* > graphs);
 private:
     std::ostream& output;
 };
