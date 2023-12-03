@@ -15,9 +15,6 @@ GraphRunner::~GraphRunner(){
 void GraphRunner::graphSize(Graph* graph){
     output << "TODO: Graph size"<<std::endl;
 }
-void GraphRunner::graphMetric(Graph* graph){
-    output << "TODO: Graph metric"<<std::endl;
-}
 
 // orders vertices by the rules of the algorithm 
 void orderVertices(vector<int>& vector, int ** matrix){
@@ -66,7 +63,7 @@ void addNextStep(vector<vector<int>> &values, vector<int> &steps, int **matrix){
         if(currentNode == value)didFindValue = true;
     }
 
-    cout<<endl;
+    //cout<<endl;
     orderVertices(newDepth, matrix);
     values.push_back(newDepth);
     
@@ -87,7 +84,7 @@ void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matri
         }
         cout<<endl;
         // we check if expanded. If not - we have the clique
-    if(steps.size() > 0 && values.back().size() == 0){
+    if(steps.size() > best_clique.size() && steps.size() > 0 && values.back().size() == 0){
         best_clique.clear();
         for(int i = 0; i<steps.size(); i++){
             best_clique.push_back(values[i][steps[i]]);
@@ -95,8 +92,8 @@ void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matri
         cout<<"Found best clique with size "<<best_clique.size()<<" and members: ";
         for(auto v:best_clique){
             cout<<v+1<<" ";
-        } 
-        cout<<endl; 
+        }
+        cout<<endl;
         return;
     }
     // we check if we do the next move
@@ -108,7 +105,7 @@ void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matri
             cout<<"Pruning..."<<endl;
             return;
         }else{
-            cout<<"Did not prune: "<<values.size() <<" "<<values.back().size()<<" "<<steps.back()<<" "<<best_clique.size()<<endl; 
+            cout<<"Did not prune: "<<values.size() <<" "<<values.back().size()<<" "<<steps.back()<<" "<<best_clique.size()<<endl;
         }
         addNextStep(values, steps, matrix);
         
@@ -141,7 +138,7 @@ vector<int> GraphRunner::maxClique(Graph* graph){
 
     std::cout<< "Test the ordering"<<std::endl;
     for (int i = 0; i < n; i++){
-        std::cout << " Original number: "<<defaultValues[i]+1<<std::endl; 
+        std::cout << " Original number: "<<defaultValues[i]+1<<std::endl;
     }
 
     vector<vector<int>> values;
@@ -153,6 +150,57 @@ vector<int> GraphRunner::maxClique(Graph* graph){
     maxCliqueStep(values, steps, g->matrix, best_clique);
     return best_clique;
 }
-void GraphRunner::maxSubgraph(std::vector<Graph* > graphs){
-    output << "TODO: Graph max subgraph"<<std::endl;
+
+bool checkCondition(int ** m1, int ** m2, int v, int w, int i, int j){
+    if(v == i) return false;
+    if(w == j) return false;
+    if(m1[v][i] == m2[w][j] && m1[i][v] == m2[j][w]) return true;
+    else return false;
+}
+
+Graph createModularProduct(Graph* G1, Graph* G2){
+    int n = G1->size;
+    int m = G2->size;
+    Graph graph(n*m);
+    for(int v=0;v<n;v++) {
+        for (int w = 0;w<m;w++){
+            int k = v*m + w;
+            for(int i=0;i<n;i++){
+                for(int j=0;j<m;j++){
+                    int l = i*m+j;
+                    if(checkCondition(G1->matrix, G2->matrix, v,w,i, j)){
+                        graph.matrix[k][l] = 1;
+                    }
+                    else graph.matrix[k][l] = 0;
+                }
+            }
+        }
+    }
+    return graph;
+}
+
+vector<int> encodeSubgraph(vector<int> clique, int n, int  m)
+{
+    vector<int> subgraph;
+    for(auto i: clique)
+    {
+        int value = (int)i / m;
+        subgraph.push_back(value);
+    }
+    return subgraph;
+}
+
+vector<int> GraphRunner::maxSubgraph(std::vector<Graph* > graphs){
+    Graph modularProduct = createModularProduct(graphs[0],graphs[1]);
+    return encodeSubgraph(maxClique(&modularProduct),graphs[0]->size,graphs[1]->size);
+}
+
+double GraphRunner::graphMetric(std::vector<Graph* > graphs){
+    int max = graphs[0]->size > graphs[1]->size ? graphs[0]->size : graphs[1]->size;
+    return 1 - maxSubgraph(graphs).size() / max;
+}
+
+double GraphRunner::graphMetric(std::vector<int> subgraph, int n, int m){
+    int max = n > m ? n : m;
+    return 1 - subgraph.size() / max;
 }
