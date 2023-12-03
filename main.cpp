@@ -3,6 +3,7 @@
 #include <string>
 
 #include "graph_runner.h"
+#include "max_clique_approx.h"
 #include "graph.h"
 int main(int argc, char* argv[]){
     char* input1;
@@ -29,7 +30,7 @@ int main(int argc, char* argv[]){
     graph->printToStream(std::cout);
     graph2->printToStream(std::cout);
     GraphRunner runner(std::cout);
-
+    MaxCliqueApprox approx(std::cout);
     runner.graphSize(graph);
     auto a = runner.maxClique(graph);
     std::cout<< "max clique: ";
@@ -42,6 +43,10 @@ int main(int argc, char* argv[]){
         std::cout << i << ' ';
     std::cout << std::endl;
     std::cout << "Distance: "<< runner.graphMetric(sub, graph->size, graph2->size);
+    //auto clique = runner.maxClique(graph);
+
+    runner.maxSubgraph({graph});
+    approx.maxCliqueApprox(graph);
     std::cout << "Program is finished";
     return 0;
 }

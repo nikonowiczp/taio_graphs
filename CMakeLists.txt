@@ -6,7 +6,7 @@ project(taio_graphs)
 set(CMAKE_CXX_STANDARD 17)
 
 # Add executable
-add_executable(taio_graphs main.cpp graph.cpp graph_runner.cpp)
+add_executable(taio_graphs main.cpp graph.cpp graph_runner.cpp max_clique_approx.cpp)
 
 # Optionally, you can set the output directory for the executable
 # set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)

@@ -1,5 +1,7 @@
 #include "graph.h"
 #include <vector>
+
+using std::vector;
 class GraphRunner{
 public:
     GraphRunner(std::ostream& output);
