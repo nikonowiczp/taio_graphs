@@ -8,7 +8,7 @@ using std::cout;
 using std::endl;
 using std::set;
 
-#define DEBUG 1
+#define DEBUG 0
 GraphRunner::GraphRunner(std::ostream& output): output(output){
 }
 GraphRunner::~GraphRunner(){
