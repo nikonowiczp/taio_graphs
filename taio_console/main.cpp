@@ -117,6 +117,13 @@ int main(int argc, char* argv[]){
                 break;
             }
             case '8':{
+                auto graphs = getGraphsFromUser(opened_files);
+                auto result = runner.graphMetric({graphs.first, graphs.second});
+                cout<<"Wynik: Metryka dla grafów: "<<result<<endl<<endl;
+                break;
+            }
+            default:{
+                cout<<"Invalid input";
                 break;
             }
         }
