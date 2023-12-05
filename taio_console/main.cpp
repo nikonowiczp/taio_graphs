@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.graphSize1(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Rozmiar grafu używajac metody wierzcholki \"aktywne\" to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<"Wynik: Rozmiar grafu uzywajac metody wierzcholki \"aktywne\" to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '2':{
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.graphSize2(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Rozmiar grafu używajac metody sredniej dostepnosci to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<"Wynik: Rozmiar grafu uzywajac metody sredniej dostepnosci to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '3':{
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxClique(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu dokladnego: ";
+                cout<<"Wynik: Maksymalna klika znaleziona uzywajac algorytmu dokladnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
                 auto result = runner.maxCliqueApprox1(graph);
-                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu aproksymacyjnego New-Best-In: ";
+                cout<<"Wynik: Maksymalna klika znaleziona uzywajac algorytmu aproksymacyjnego New-Best-In: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
@@ -91,11 +91,22 @@ int main(int argc, char* argv[]){
             }
             case '5':{
                 auto graph = getGraphFromUser(opened_files);
+                int k = -1;
+                while(k == -1){
+                    char input;
+                    cout<<"Prosze wybierz k:"<<endl;
+                    std::cin>>input;
+                    if(std::isdigit(input)){
+                        k = input - '0';
+                    }
+                    cout<<endl;
+                }
+                
                 start = std::chrono::high_resolution_clock::now();
                 auto result = runner.maxCliqueApprox2(graph, 1);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu aproksymacyjnego SM k dla k = 1: "<<endl;
+                cout<<"Wynik: Maksymalna klika znaleziona uzywajac algorytmu aproksymacyjnego SM k dla k = 1: "<<endl;
                 for(auto v: result){
                     cout<<v<<" ";
                 }
@@ -108,7 +119,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxSubgraph({graphs.first, graphs.second});
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony używajac algorytmu dokladnego: ";
+                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony uzywajac algorytmu dokladnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
@@ -121,7 +132,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxSubgraphApprox({graphs.first, graphs.second});
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony używajac algorytmu aproksymacyjnego: ";
+                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony uzywajac algorytmu aproksymacyjnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
@@ -154,7 +165,7 @@ bool isNumber(string& s){
 }
 Graph* getGraphFromUser(std::vector<std::pair<string, Graph*>> &opened_files, string prefix){
     while(true){
-        cout<<prefix<<"Prosze wpisac nazwe pliku albo wpisac numer wczytanego już pliku"<<endl;
+        cout<<prefix<<"Prosze wpisac nazwe pliku albo wpisac numer wczytanego juz pliku"<<endl;
 
         for(int i = 0; i < opened_files.size(); i++){
             cout<<i<<": "<<opened_files[i].first<<endl;
