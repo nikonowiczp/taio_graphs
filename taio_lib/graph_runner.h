@@ -20,8 +20,8 @@ public:
     vector<int> maxSubgraphApprox(std::vector<Graph* > graphs);
 
 private:
-    vector<int> maxCliqueApproxStep(Graph* graph, int *degrees, int k, int max_k, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found);
-    vector<int> maxCliqueApproxNewBestIn(Graph* graph, int k, int *degrees, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found);
+    vector<int> maxCliqueApproxStep(Graph* graph, vector<int> degrees, int k, int max_k, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found);
+    vector<int> maxCliqueApproxNewBestIn(Graph* graph, int k, vector<int> degrees, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found);
 
     std::ostream& output;
 };

@@ -348,19 +348,20 @@ vector<int> GraphRunner::maxCliqueApprox1(Graph* graph){
 }
 
 
-vector<int> GraphRunner::maxCliqueApproxNewBestIn(Graph* graph, int k, int *degrees, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found){
-    cout<<"Max clique approx new best in"<<endl;
+vector<int> GraphRunner::maxCliqueApproxNewBestIn(Graph* graph, int k, vector<int> degrees, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found){
     int n = graph->size;
-    int highest_index = 0;
-    
-    for (int i = 0; i < n; i++){
-        if(degrees[i] > degrees[highest_index]){
-            highest_index = i;
+    if(subgraph.size() == 0){
+        
+        return maximum_clique;
+    }
+    int highest_index = subgraph.front();
+    for (auto v: subgraph){
+        if(degrees[v] > degrees[highest_index]){
+            highest_index = v;
         }
     }
     while(subgraph.size() != 0){
         if(maximum_clique.size() + subgraph.size() <= maximum_found.size()){
-            if(DEBUG) cout<<"We pruned"<<endl;
             return maximum_found;
         }
         maximum_clique.push_back(highest_index);
@@ -392,33 +393,28 @@ vector<int> GraphRunner::maxCliqueApproxNewBestIn(Graph* graph, int k, int *degr
     }
     return maximum_clique;
 }
-vector<int> GraphRunner::maxCliqueApproxStep(Graph* graph, int *degrees, int k, int max_k, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found) {
-    int n = graph->size, highest_index = 0;
-    int* degrees_order = new int(n);
+vector<int> GraphRunner::maxCliqueApproxStep(Graph* graph, vector<int> degrees, int k, int max_k, vector<int> subgraph, vector<int> maximum_clique, vector<int> maximum_found) {
+    vector<int> maximum_found_local(maximum_found);
+    int n = graph->size;
+    vector<int> degrees_order(degrees);
     for(int i = 0; i < n; i++){
         degrees_order[i] = degrees[i];
     }
+
     if(max_k == k){
-        cout<<"Max_k = k. Trying maxClique approx new best in"<<endl;
-        auto q = maxCliqueApproxNewBestIn(graph, k, degrees_order, subgraph, maximum_clique, maximum_found);
-        cout<<"Returned from max clique best in"<<endl;
-        cout<<"Found clique ";
-        for(auto a:q)cout<<a<<" ";
-        cout<<endl;
+        auto q = maxCliqueApproxNewBestIn(graph, k, degrees_order, subgraph, maximum_clique, maximum_found_local);
         return q;
     }
-
+    if(subgraph.size() ==0){
+        return maximum_clique;
+    }
+    int highest_index = subgraph.front();
     while(true){
-        cout<<"K = "<<k<<". Another loop"<<endl;
-        int* degrees_local = new int(graph->size);
-        for(int j = 0; j < n; j++){
-            degrees_local[j] = degrees[j];
-        }
-        vector<int> subgraph_local(subgraph);
+        vector<int> degrees_local(degrees);
         vector<int> maximum_clique_local(maximum_clique);
-        for(int j = 0 ; j < n; j++){
-            if(degrees_order[j] > degrees_order[highest_index]){
-                highest_index = j;
+        for(auto vec: subgraph){
+            if(degrees_order[vec] > degrees_order[highest_index]){
+                highest_index = vec;
             }
         }
         if(degrees_order[highest_index] < 0){
@@ -426,18 +422,17 @@ vector<int> GraphRunner::maxCliqueApproxStep(Graph* graph, int *degrees, int k, 
         }
         degrees_order[highest_index] = -1;
         maximum_clique_local.push_back(highest_index);
-
         vector<int> tmp;
         vector<int> rejected;
 
-        for(auto vec: subgraph_local){
+        for(auto vec: subgraph){
             if(graph->matrix[highest_index][vec]){
                 tmp.push_back(vec);
             }else{
                 rejected.push_back(vec);
             }
         }
-        if(maximum_clique_local.size() + tmp.size() <= maximum_found.size()){
+        if(maximum_clique_local.size() + tmp.size() <= maximum_found_local.size()){
             continue;
         }
         for(auto vec1: tmp){
@@ -447,21 +442,18 @@ vector<int> GraphRunner::maxCliqueApproxStep(Graph* graph, int *degrees, int k, 
                 }
             }
         }
-        auto q = maxCliqueApproxStep(graph, degrees_local, k+1, max_k, tmp, maximum_clique_local, maximum_found);
-        cout<<"Returned from maxCliqueApproxStep"<<endl;
+        auto q = maxCliqueApproxStep(graph, degrees_local, k+1, max_k, tmp, maximum_clique_local, maximum_found_local);
 
-        if(q.size()>maximum_found.size()){
-            maximum_found=q;
+        if(q.size()>maximum_found_local.size()){
+            maximum_found_local=q;
         }
-        delete degrees_local;
     }
-    //delete degrees_order;
-    return maximum_found;
+    return maximum_found_local;
 }
 vector<int> GraphRunner::maxCliqueApprox2(Graph* graph, int k){
     Graph * g = Graph::fromGraph(graph);
     int n = g->size;
-    auto degrees = new int(n);
+    vector<int> degrees(n);
     vector<int> subgraph(n);
     vector<int> maximum_clique_found, maximum_clique;
     
@@ -481,8 +473,7 @@ vector<int> GraphRunner::maxCliqueApprox2(Graph* graph, int k){
             }
         }
     }
-    maximum_clique_found = maxCliqueApproxStep(g, degrees, 1, k+1, maximum_clique, maximum_clique_found, subgraph);
-    //delete g;
-    cout<<"Ended max clique approx"<<endl;
-    return maximum_clique_found;
+    auto result = maxCliqueApproxStep(g, degrees, 1, k+1, subgraph, maximum_clique, maximum_clique_found);
+    delete g;
+    return result;
 }

@@ -22,22 +22,22 @@ int main(int argc, char* argv[]){
     GraphRunner runner(cout);
     cout<<    
     "Witaj w rozwiazaniu laboratorium z TAIO, autorzy Mateusz Cichowicz, Patryk Nikonowicz.\n"
-    "To jest tryb interaktywny. Jeśli chcesz wykonać wszystkie operacje na pliku i uzyskać wynik w folderze wywołaj program z następującymi argumentami:\n\n"
-    "<plik wykonywalny> nazwa_pliku_wyjściowego nazwa_pliku_z_grafem_1 [nazwa_pliku_z_grafem_2]\n\n"
-    "Jeśli otrzymany będzie jeden plik nie wykonanie zostanie na nim metryka ani podgraf\n";
+    "To jest tryb interaktywny. Jesli chcesz wykonac wszystkie operacje na pliku i uzyskac wynik w folderze wywolaj program z nastepujacymi argumentami:\n\n"
+    "<plik wykonywalny> nazwa_pliku_wyjsciowego nazwa_pliku_z_grafem_1 [nazwa_pliku_z_grafem_2]\n\n"
+    "Jesli otrzymany bedzie jeden plik nie wykonanie zostanie na nim metryka ani podgraf\n";
     
     while(true){
         cout<<
-            "Opcje są następujące:\n"
-            "1 Rozmiar grafu    - wierzchołki \"aktywne\"\n"
-            "2 Rozmiar grafu    - średnia dostępność\n"
-            "3 Maksymalna klika - algorytm dokładny\n"
+            "Opcje sa nastepujace:\n"
+            "1 Rozmiar grafu    - wierzcholki \"aktywne\"\n"
+            "2 Rozmiar grafu    - srednia dostepnosc\n"
+            "3 Maksymalna klika - algorytm dokladny\n"
             "4 Maksymalna klika - algorytm aproksymacyjny New-Best-In\n"
             "5 Maksymalna klika - algorytm aproksymacyjny SM k\n"
-            "6 Maksymalny wspólny podgraf - algorytm dokładny\n"
-            "7 Maksymalny wspólny podgraf - algorytm aproksymacyjny\n"
+            "6 Maksymalny wspolny podgraf - algorytm dokladny\n"
+            "7 Maksymalny wspolny podgraf - algorytm aproksymacyjny\n"
             "8 Metryka\n"
-            "q Zakończenie programu\n";    
+            "q Zakonczenie programu\n";    
         std::cin >> char_input;
         cout<<endl;
         switch(char_input){
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.graphSize1(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Rozmiar grafu używając metody wierzchołki \"aktywne\" to: "<<result<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<"Wynik: Rozmiar grafu używajac metody wierzcholki \"aktywne\" to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '2':{
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.graphSize2(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Rozmiar grafu używając metody średniej dostępności to: "<<result<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<"Wynik: Rozmiar grafu używajac metody sredniej dostepnosci to: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '3':{
@@ -69,11 +69,11 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxClique(graph);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalna klika znaleziona używając algorytmu dokładnego: ";
+                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu dokladnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
-                cout<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '4':{
@@ -82,11 +82,11 @@ int main(int argc, char* argv[]){
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
                 auto result = runner.maxCliqueApprox1(graph);
-                cout<<"Wynik: Maksymalna klika znaleziona używając algorytmu aproksymacyjnego New-Best-In: ";
+                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu aproksymacyjnego New-Best-In: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
-                cout<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '5':{
@@ -95,11 +95,11 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxCliqueApprox2(graph, 1);
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalna klika znaleziona używając algorytmu aproksymacyjnego SM k dla k = 1: "<<endl;
+                cout<<"Wynik: Maksymalna klika znaleziona używajac algorytmu aproksymacyjnego SM k dla k = 1: "<<endl;
                 for(auto v: result){
                     cout<<v<<" ";
                 }
-                cout<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '6':{
@@ -108,11 +108,11 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxSubgraph({graphs.first, graphs.second});
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalny wspólny podgraf znaleziony używając algorytmu dokładnego: ";
+                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony używajac algorytmu dokladnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
-                cout<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '7':{
@@ -121,11 +121,11 @@ int main(int argc, char* argv[]){
                 auto result = runner.maxSubgraphApprox({graphs.first, graphs.second});
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Maksymalny wspólny podgraf znaleziony używając algorytmu aproksymacyjnego: ";
+                cout<<"Wynik: Maksymalny wspolny podgraf znaleziony używajac algorytmu aproksymacyjnego: ";
                 for(auto v: result){
                     cout<<v<<" ";
                 }
-                cout<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             case '8':{
@@ -134,7 +134,7 @@ int main(int argc, char* argv[]){
                 auto result = runner.graphMetric({graphs.first, graphs.second});
                 end = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                cout<<"Wynik: Metryka dla grafów: "<<result<<endl<<"Wykonanie zajęło: "<<duration.count()<<" ms"<<endl<<endl;
+                cout<<"Wynik: Metryka dla grafow: "<<result<<endl<<"Wykonanie zajelo: "<<duration.count()<<" ms"<<endl<<endl;
                 break;
             }
             default:{
@@ -154,7 +154,7 @@ bool isNumber(string& s){
 }
 Graph* getGraphFromUser(std::vector<std::pair<string, Graph*>> &opened_files, string prefix){
     while(true){
-        cout<<prefix<<"Proszę wpisać nazwę pliku albo wpisać numer wczytanego już pliku"<<endl;
+        cout<<prefix<<"Prosze wpisac nazwe pliku albo wpisac numer wczytanego już pliku"<<endl;
 
         for(int i = 0; i < opened_files.size(); i++){
             cout<<i<<": "<<opened_files[i].first<<endl;
