@@ -7,7 +7,7 @@ using std::cout;
 using std::endl;
 using std::set;
 
-#define DEBUG 1
+#define DEBUG 0
 GraphRunner::GraphRunner(std::ostream& output): output(output){
 }
 GraphRunner::~GraphRunner(){
@@ -49,12 +49,14 @@ double GraphRunner::graphSize2(Graph* graph){
     }
     bool changed = true;
     while(changed){
-        cout<<"Snapshot of vertices: "<<endl;
+        if(DEBUG){
+            cout<<"Snapshot of vertices: "<<endl;
         for(int i = 0; i < n; i++){
             cout<<" To vertice "<<i<<": ";
             for(auto a: sets[i]){
                 cout<<a<<" ";
             }cout<<endl;
+        }
         }
         changed = false;
         // for each vertice
@@ -181,9 +183,6 @@ void maxCliqueStep(vector<vector<int>> &values, vector<int> &steps,  int **matri
 }
 vector<int> GraphRunner::maxClique(Graph* graph){
     auto g = Graph::fromGraph(graph);
-
-
-    output << "Graph max clique Randy Carraghan"<<endl;
     int n = graph->size;
 
     //prune a graph
@@ -194,7 +193,7 @@ vector<int> GraphRunner::maxClique(Graph* graph){
             }
         }
     }
-    g->printToStream(cout);
+    if(DEBUG)g->printToStream(cout);
     vector<int> defaultValues;
     for(int i = 0; i<n;i++) defaultValues.push_back(i);
     orderVertices(defaultValues, g->matrix);
@@ -259,7 +258,10 @@ vector<int> GraphRunner::maxSubgraph(vector<Graph* > graphs){
     Graph modularProduct = createModularProduct(graphs[0],graphs[1]);
     return encodeSubgraph(maxClique(&modularProduct),graphs[0]->size,graphs[1]->size);
 }
-
+vector<int> GraphRunner::maxSubgraphApprox(vector<Graph* > graphs){
+    Graph modularProduct = createModularProduct(graphs[0],graphs[1]);
+    return encodeSubgraph(maxClique(&modularProduct),graphs[0]->size,graphs[1]->size);
+}
 double GraphRunner::graphMetric(vector<Graph* > graphs){
     int max = graphs[0]->size > graphs[1]->size ? graphs[0]->size : graphs[1]->size;
     return 1 - maxSubgraph(graphs).size() / max;

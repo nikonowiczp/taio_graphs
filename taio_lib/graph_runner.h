@@ -16,6 +16,8 @@ public:
     vector<int> maxCliqueApprox(Graph* graph, int k = 0);
 
     vector<int> maxSubgraph(std::vector<Graph* > graphs);
+    vector<int> maxSubgraphApprox(std::vector<Graph* > graphs);
+
 private:
     std::ostream& output;
 };
