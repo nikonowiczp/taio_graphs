@@ -6,7 +6,7 @@
 #include <map>
 #include <sstream>
 #include <chrono>
-
+#include <algorithm>
 using std::cout;
 using std::endl;
 using std::string;
@@ -214,6 +214,8 @@ void run_case_max_clique(GraphRunner runner, Graph *graph, std::ostream &output)
 
     start = std::chrono::high_resolution_clock::now();
     auto result = runner.maxClique(graph);
+    std::sort(result.begin(), result.end()); 
+
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     output << "Wynik: Maksymalna klika znaleziona uzywajac algorytmu dokladnego: "<<endl;
@@ -231,6 +233,7 @@ void run_case_max_clique_approx_1(GraphRunner runner, Graph *graph, std::ostream
     std::chrono::microseconds duration;
     start = std::chrono::high_resolution_clock::now();
     auto result = runner.maxCliqueApprox1(graph);
+    std::sort(result.begin(), result.end()); 
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
@@ -249,6 +252,7 @@ void run_case_max_clique_approx_2(GraphRunner runner, Graph *graph, int k, std::
     std::chrono::microseconds duration;
     start = std::chrono::high_resolution_clock::now();
     auto result = runner.maxCliqueApprox2(graph, k);
+    std::sort(result.begin(), result.end()); 
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     output << "Wynik: Maksymalna klika znaleziona uzywajac algorytmu aproksymacyjnego SM k dla k = "<<k<<": " << endl;
@@ -266,6 +270,7 @@ void run_case_max_subgraph(GraphRunner runner, Graph *graph1, Graph *graph2, std
     std::chrono::microseconds duration;
     start = std::chrono::high_resolution_clock::now();
     auto result = runner.maxSubgraph({graph1, graph2});
+    std::sort(result.begin(), result.end());
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     output << "Wynik: Maksymalny wspolny podgraf znaleziony uzywajac algorytmu dokladnego: ";
@@ -283,6 +288,7 @@ void run_case_max_subgraph_approx(GraphRunner runner, Graph *graph1, Graph *grap
     std::chrono::microseconds duration;
     start = std::chrono::high_resolution_clock::now();
     auto result = runner.maxSubgraphApprox({graph1, graph2});
+    std::sort(result.begin(), result.end());
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     output << "Wynik: Maksymalny wspolny podgraf znaleziony uzywajac algorytmu aproksymacyjnego: ";
