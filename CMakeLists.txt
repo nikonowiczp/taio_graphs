@@ -1,12 +1,11 @@
-cmake_minimum_required(VERSION 3.10)
+# CMakeList.txt : Top-level CMake project file, do global configuration
+# and include sub-projects here.
+#
+cmake_minimum_required (VERSION 3.10)
 
-project(taio_graphs)
+project (taio)
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-
-# Add executable
-add_executable(taio_graphs main.cpp graph.cpp graph_runner.cpp max_clique_approx.cpp)
-
-# Optionally, you can set the output directory for the executable
-# set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+# Include sub-projects.
+add_subdirectory ("taio_lib")
+add_subdirectory ("taio_console")
+# add_subdirectory ("taio_gui")

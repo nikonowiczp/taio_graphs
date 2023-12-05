@@ -7,11 +7,15 @@ public:
     GraphRunner(std::ostream& output);
     ~GraphRunner();
 
-    void graphSize(Graph* graph);
+    double graphSize1(Graph* graph);
+    double graphSize2(Graph* graph);
+
     double graphMetric(std::vector<Graph* > graphs);
     double graphMetric(std::vector<int> subgraph, int n, int m);
-    std::vector<int> maxClique(Graph* graph);
-    std::vector<int> maxSubgraph(std::vector<Graph* > graphs);
+    vector<int> maxClique(Graph* graph);
+    vector<int> maxCliqueApprox(Graph* graph, int k = 0);
+
+    vector<int> maxSubgraph(std::vector<Graph* > graphs);
 private:
     std::ostream& output;
 };
