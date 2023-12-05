@@ -385,7 +385,7 @@ int run_non_interactive(int argc, char *argv[])
     }
     else
     {
-        cout << "Użycie: <plik wykonywalny> nazwa_pliku_wyjsciowego nazwa_pliku_z_grafem_1 [nazwa_pliku_z_grafem_2] " << endl;
+        cout << "Uzycie: <plik wykonywalny> nazwa_pliku_wyjsciowego nazwa_pliku_z_grafem_1 [nazwa_pliku_z_grafem_2] " << endl;
         return 1;
     }
 }
